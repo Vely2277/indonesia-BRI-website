@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" role="img" aria-label="deposit illustration">
+  <rect width="600" height="360" rx="24" fill="#f8f8f8"/>
+  <rect x="90" y="95" width="420" height="170" rx="22" fill="#ffffff"/>
+  <rect x="120" y="130" width="150" height="92" rx="18" fill="#287D3D"/>
+  <rect x="310" y="130" width="160" height="16" rx="8" fill="#0B5FFF"/>
+  <rect x="310" y="156" width="140" height="12" rx="6" fill="#d3d3d3"/>
+  <rect x="310" y="181" width="120" height="12" rx="6" fill="#d3d3d3"/>
+</svg>

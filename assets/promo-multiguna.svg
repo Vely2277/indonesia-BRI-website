@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" role="img" aria-label="multiguna illustration">
+  <rect width="600" height="360" rx="24" fill="#f4f7fb"/>
+  <rect x="70" y="95" width="460" height="180" rx="24" fill="#ffffff"/>
+  <rect x="110" y="125" width="120" height="110" rx="18" fill="#DA1414"/>
+  <rect x="270" y="126" width="190" height="16" rx="8" fill="#0B5FFF"/>
+  <rect x="270" y="152" width="170" height="12" rx="6" fill="#dfe3ea"/>
+  <rect x="270" y="176" width="140" height="12" rx="6" fill="#dfe3ea"/>
+  <circle cx="460" cy="230" r="34" fill="#f5c300" opacity="0.25"/>
+</svg>
