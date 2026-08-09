@@ -13,10 +13,10 @@
   <meta property="og:image" content="assets/Banner-BRI_OMNI-BTS_1920x785px_WEB.jpg.jpeg" />
 </head>
 <body>
-  <header class="site-header header-image">
+  <header class="site-header">
     <div class="container header-inner">
       <a class="logo" href="index.html" aria-label="Beranda BRI">
-        <img src="assets/logo.svg" alt="Logo BRI" class="logo-img" />
+        <img src="assets/bri-logo-blue.png" alt="Logo BRI" class="logo-img" />
       </a>
       <nav class="main-nav" aria-label="Navigasi utama">
         <a href="index.html" class="active">Beranda</a>
@@ -28,38 +28,45 @@
 
   <main>
     <section class="hero">
-      <div class="container hero-inner">
-        <div class="hero-copy">
-          <!-- Minimal CTAs only; headline removed per design request -->
-          <div class="hero-ctas">
-            <a class="btn primary" href="promo-list.html">KLIK DISINI</a>
-            <a class="cta-pillow" href="https://bbri.id/promobts26" target="_blank">bbri.id/promobts26</a>
-          </div>
-        </div>
-        <div class="hero-visual">
-          <div class="frame">
-            <img src="assets/image2.jpeg" alt="Promo Back To School BRI" />
-          </div>
+      <div class="hero-background">
+        <img src="assets/image1.jpeg" alt="Hero Background" />
+      </div>
+      <div class="hero-overlay">
+        <div class="hero-ctas">
+          <a class="btn primary" href="promo-list.html">KLIK DISINI</a>
         </div>
       </div>
     </section>
 
+    <div class="hero-divider"></div>
+
+    <section class="hero-secondary">
+      <img src="assets/image2.jpeg" alt="Secondary Hero" />
+    </section>
+
     <section class="quick-categories container">
       <div class="cat">
-        <img alt="Makanan & Minuman" src="assets/promo-debit.svg">
-        <div>Makanan &amp; Minuman</div>
+        <img alt="Food & Beverage" src="assets/food_beverage.png">
+        <div>Food &amp; Beverage</div>
       </div>
       <div class="cat">
-        <img alt="Tabungan & Deposito" src="assets/promo-deposit.svg">
-        <div>Tabungan &amp; Deposito</div>
+        <img alt="Fashion" src="assets/fashion.png">
+        <div>Fashion</div>
       </div>
       <div class="cat">
-        <img alt="Kredit & Multiguna" src="assets/promo-multiguna.svg">
-        <div>Kredit &amp; Multiguna</div>
+        <img alt="Lifestyle & Entertainment" src="assets/lifestyle.png">
+        <div>Lifestyle &amp; Entertainment</div>
       </div>
       <div class="cat">
-        <img alt="Ilustrasi promo" src="assets/hero-banner.svg">
-        <div>Lainnya</div>
+        <img alt="Others" src="assets/others.png">
+        <div>Others</div>
+      </div>
+    </section>
+
+    <section class="personal-greeting container">
+      <div class="greeting-content">
+        <h2 class="typewriter">Halo, Sugeng Yulianto</h2>
+        <a href="promo-list.html" class="btn-apply">Klik untuk Mendaftar</a>
       </div>
     </section>
 
@@ -70,23 +77,85 @@
       </div>
 
       <div class="promo-grid">
-        <article class="promo-card" aria-labelledby="promo-1-title">
-          <img class="promo-image" src="assets/Banner website_PJF2026 - 1920x785px.jpg.jpeg" alt="Promo utama BRI" />
-          <h3 id="promo-1-title">Belanja Jadi Tenang Pakai BRI Debit Contactless</h3>
-          <p class="date"><time datetime="2026-07-08">08 Jul 2026</time> — Sampai pemberitahuan lebih lanjut</p>
-        </article>
+        <a href="promo-detail.html" class="promo-card">
+          <img class="promo-image" src="assets/promo1.jpg" alt="Belanja Jadi Tenang Pakai BRI Debit Contactless" />
+          <div class="promo-overlay">
+            <p class="eyebrow">Danantara Indonesia</p>
+            <h3>Belanja Jadi Tenang Pakai BRI Debit Contactless</h3>
+            <p class="date">08 Jul 2026 — No expired</p>
+            <p class="tagline">Satu Bank Untuk Semua</p>
+          </div>
+        </a>
 
-        <article class="promo-card" aria-labelledby="promo-2-title">
-          <img class="promo-image" src="assets/promo-deposit.svg" alt="Deposito BRImo" />
-          <h3 id="promo-2-title">Buka Deposito Praktis dengan BRImo</h3>
-          <p class="date"><time datetime="2026-07-08">08 Jul 2026</time> — <time datetime="2026-12-31">31 Dec 2026</time></p>
-        </article>
+        <a href="promo-detail.html" class="promo-card">
+          <img class="promo-image" src="assets/promo2.jpg" alt="Investasi Mudah & Tenang Buka Deposito Pakai BRImo" />
+          <div class="promo-overlay">
+            <p class="eyebrow">Danantara Indonesia</p>
+            <h3>Investasi Mudah & Tenang Buka Deposito Pakai BRImo</h3>
+            <p class="date">Dapatkan Tambahan Reward 1% p.a</p>
+            <p class="tagline">Satu Bank Untuk Semua</p>
+          </div>
+        </a>
 
-        <article class="promo-card" aria-labelledby="promo-3-title">
-          <img class="promo-image" src="assets/promo-multiguna.svg" alt="BRI Multiguna Karya" />
-          <h3 id="promo-3-title">BRI Multiguna Karya — Pre-Approved</h3>
-          <p class="date"><time datetime="2026-07-07">07 Jul 2026</time> — Sampai pemberitahuan</p>
-        </article>
+        <a href="promo-detail.html" class="promo-card">
+          <img class="promo-image" src="assets/promo3.jpg" alt="Manfaatkan Fasilitas BRI Multiguna untuk Dana Pendidikan Anda" />
+          <div class="promo-overlay">
+            <p class="eyebrow">Danantara Indonesia</p>
+            <h3>Manfaatkan Fasilitas BRI Multiguna untuk Dana Pendidikan Anda</h3>
+            <p class="date">07 Jul 2026 — No expired</p>
+            <p class="tagline">Satu Bank Untuk Semua</p>
+          </div>
+        </a>
+
+        <a href="promo-detail.html" class="promo-card">
+          <img class="promo-image" src="assets/promo4.jpg" alt="KUPEDES BRI" />
+          <div class="promo-overlay">
+            <p class="eyebrow">Danantara Indonesia</p>
+            <h3>KUPEDES BRI</h3>
+            <p class="date">06 Jul 2026 — No expired</p>
+            <p class="tagline">Satu Bank Untuk Semua</p>
+          </div>
+        </a>
+
+        <a href="promo-detail.html" class="promo-card">
+          <img class="promo-image" src="assets/promo5.jpg" alt="Promo Spesial Secret Garden" />
+          <div class="promo-overlay">
+            <p class="eyebrow">Danantara Indonesia</p>
+            <h3>Diskon 20% Promo Spesial Secret Garden</h3>
+            <p class="date">13 Apr — 31 Des 2026</p>
+            <p class="tagline">Satu Bank Untuk Semua</p>
+          </div>
+        </a>
+
+        <a href="promo-detail.html" class="promo-card">
+          <img class="promo-image" src="assets/promo6.jpg" alt="Weekend Deals" />
+          <div class="promo-overlay">
+            <p class="eyebrow">Danantara Indonesia</p>
+            <h3>Weekend Deals</h3>
+            <p class="date">Berlaku hingga pemberitahuan</p>
+            <p class="tagline">Satu Bank Untuk Semua</p>
+          </div>
+        </a>
+
+        <a href="promo-detail.html" class="promo-card">
+          <img class="promo-image" src="assets/promo7.jpg" alt="Promo Spesial" />
+          <div class="promo-overlay">
+            <p class="eyebrow">Danantara Indonesia</p>
+            <h3>Promo Spesial</h3>
+            <p class="date">Berlaku hingga pemberitahuan</p>
+            <p class="tagline">Satu Bank Untuk Semua</p>
+          </div>
+        </a>
+
+        <a href="promo-detail.html" class="promo-card">
+          <img class="promo-image" src="assets/promo8.jpg" alt="Promo Terbaru" />
+          <div class="promo-overlay">
+            <p class="eyebrow">Danantara Indonesia</p>
+            <h3>Promo Terbaru</h3>
+            <p class="date">Berlaku hingga pemberitahuan</p>
+            <p class="tagline">Satu Bank Untuk Semua</p>
+          </div>
+        </a>
       </div>
     </section>
 
@@ -117,18 +186,33 @@
     <div class="container footer-inner">
       <div class="col">
         <h4>BRI Headquarters</h4>
-        <p>PT. Bank Rakyat Indonesia (Persero) Tbk.<br>Gedung BRI, Jl. Jenderal Sudirman Kav.44-46, Jakarta 10210</p>
+        <p>PT. Bank Rakyat Indonesia (Persero) Tbk.</p>
+        <p>Gedung BRI<br>Jl. Jenderal Sudirman Kav.44-46<br>Jakarta 10210<br>Indonesia</p>
       </div>
       <div class="col">
         <h4>Contact Us</h4>
-        <p>1500017<br>callbri@bri.co.id</p>
+        <p>1500017</p>
+        <p>callbri@bri.co.id</p>
+        <div class="social-icons">
+          <a href="https://www.facebook.com/BRIofficialpage"><img src="assets/facebook_logo.svg" alt="Facebook"></a>
+          <a href="https://www.instagram.com/bankbri_id/"><img src="assets/instagram_logo.svg" alt="Instagram"></a>
+          <a href="https://twitter.com/kontakbri"><img src="assets/twitter_logo.svg" alt="X"></a>
+          <a href="https://youtube.com/channel/UCRHFE_ooDrkEiRRJbog3EjA"><img src="assets/youtube_logo.svg" alt="YouTube"></a>
+        </div>
       </div>
       <div class="col">
-        <h4>Links</h4>
-        <ul>
-          <li><a href="promo-list.html">Produk &amp; Layanan BRI</a></li>
-          <li><a href="promo-list.html">Informasi Deposito</a></li>
-        </ul>
+        <h4>Link</h4>
+        <p>BRI Product</p>
+        <p><a href="promo-list.html" class="footer-link">Deposit Interest</a></p>
+        <p><a href="promo-list.html" class="footer-link">Rates</a></p>
+        <p><a href="promo-list.html" class="footer-link">Loan Interest Rates</a></p>
+        <p><a href="promo-list.html" class="footer-link">Fees & Rates</a></p>
+        <p>Whistleblowing System</p>
+        <p>Career</p>
+      </div>
+      <div class="col">
+        <p>BRI is registered and supervised by the Financial Services Authority</p>
+        <p>BRI is an LPS guarantor participant</p>
       </div>
     </div>
     <div class="footer-bottom">© 2026 PT.Bank Rakyat Indonesia (Persero) Tbk. | All Rights Reserved.</div>
@@ -136,9 +220,12 @@
       <div class="container">
         <div>© 2026 PT.Bank Rakyat Indonesia (Persero) Tbk.</div>
         <div>
-          <a href="#">Privacy</a>
-          <a href="#">Term of Use</a>
-          <a href="#">Sitemap</a>
+          <a href="https://bri.co.id/web/guest/privacy">Privacy</a>
+          <a href="https://bri.co.id/web/guest/term-of-use">Term of Use</a>
+          <a href="https://bri.co.id/web/guest/sitemap">Sitemap</a>
+          <a href="https://bri.co.id/web/erecruitment">Career</a>
+          <a href="https://ibank.bri.co.id/cms/">CMS BRI</a>
+          <a href="https://eform.bri.co.id/">E-Form BRI</a>
         </div>
       </div>
     </div>
