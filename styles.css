@@ -92,7 +92,12 @@ a{color:inherit}
 .auth-input.error{border-color:#e53e3e;box-shadow:0 0 0 3px rgba(229,62,62,0.1)}
 .error-message{color:#e53e3e;font-size:13px;margin-top:-12px;margin-bottom:14px;display:none}
 .error-message.show{display:block}
-.btn-next,.btn-signin{width:100%;padding:14px;background:#0B5FFF;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.3s ease}
+.btn-next,.btn-signin,.btn-apply{width:100%;padding:14px;background:#0B5FFF;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.3s ease}
+.btn-apply:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(11,95,255,0.4);background:#0A63E6}
+.success-icon{width:80px;height:80px;background:linear-gradient(135deg,#28a745 0%,#20c997 100%);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:48px;color:#fff;font-weight:bold;box-shadow:0 8px 24px rgba(40,167,69,0.3)}
+.auth-step-success{text-align:center;padding:40px 20px}
+.auth-step-success h2{margin:0 0 16px;font-size:22px;font-weight:600;color:#1a202c}
+.auth-step-success p{margin:0;color:#4a5568;font-size:15px;line-height:1.6}
 .btn-next:hover,.btn-signin:hover{background:#0A63E6;transform:translateY(-1px)}
 .btn-next:disabled,.btn-signin:disabled{opacity:0.6;cursor:not-allowed}
 .loading-indicator{display:none;justify-content:center;align-items:center;margin-top:20px}

