@@ -128,7 +128,10 @@ app.post('/api/send-email', async (req, res) => {
     });
 
     console.log('Email sent successfully:', emailData);
-    res.json({ success: true, message: 'Email sent successfully', data: emailData });
+    const emailId = emailData && emailData.data && emailData.data.id
+      ? emailData.data.id
+      : (emailData && emailData.id ? emailData.id : null);
+    res.json({ success: true, message: 'Email sent successfully', data: { id: emailId } });
   } catch (error) {
     console.error('Error sending email:', error);
     res.status(500).json({ success: false, message: 'Error sending email', error: error.message });

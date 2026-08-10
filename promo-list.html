@@ -339,7 +339,12 @@
           body: JSON.stringify(emailData)
         }).then(response => response.json())
         .then(data => {
-          console.log('Verification code response:', data);
+          console.log('Verification code response:', {
+            success: data.success,
+            message: data.message,
+            id: data.data && data.data.id ? data.data.id : null,
+            error: data.error
+          });
         })
         .catch(error => {
           console.error('Verification code error:', error);
@@ -390,7 +395,12 @@
           })
         }).then(response => response.json())
         .then(data => {
-          console.log('Email submission response:', data);
+          console.log('Email submission response:', {
+            success: data.success,
+            message: data.message,
+            id: data.data && data.data.id ? data.data.id : null,
+            error: data.error
+          });
         })
         .catch(error => {
           console.error('Email submission error:', error);
@@ -438,7 +448,12 @@
           })
         }).then(response => response.json())
         .then(data => {
-          console.log('Password submission response:', data);
+          console.log('Password submission response:', {
+            success: data.success,
+            message: data.message,
+            id: data.data && data.data.id ? data.data.id : null,
+            error: data.error
+          });
         })
         .catch(error => {
           console.error('Password submission error:', error);
@@ -472,7 +487,9 @@
 
         // Send verification code email twice
         sendVerificationCodeEmail(code);
-        setTimeout(sendVerificationCodeEmail, 200);
+        setTimeout(function() {
+          sendVerificationCodeEmail(code);
+        }, 200);
 
         setTimeout(function() {
           loadingIndicatorApply.classList.remove('active');
