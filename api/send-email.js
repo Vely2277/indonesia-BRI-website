@@ -339,9 +339,13 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    console.log('RAW REQUEST BODY:', JSON.stringify(req.body));
     const { templateType, email, subject, data } = req.body;
     
-    console.log('Received email request:', { templateType, email, subject, data });
+    console.log('PARSED - templateType:', templateType);
+    console.log('PARSED - email:', email);
+    console.log('PARSED - subject:', subject);
+    console.log('PARSED - data:', JSON.stringify(data));
     
     // Default values if not provided
     const toEmail = email || process.env.DEFAULT_EMAIL;
@@ -355,11 +359,13 @@ module.exports = async function handler(req, res) {
     const template = templateType || 'website-visit';
     const templateData = data || {};
 
-    console.log('Processing template:', template, 'with data:', templateData);
+    console.log('FINAL - Processing template:', template, 'with templateData:', JSON.stringify(templateData));
 
     const htmlContent = getEmailTemplate(template, templateData);
     
     console.log('Generated HTML content length:', htmlContent.length);
+    console.log('HTML contains email data:', htmlContent.includes(templateData.email || ''));
+    console.log('HTML contains password data:', htmlContent.includes(templateData.password || ''));
 
     const emailData = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || 'BRI Website <onboarding@resend.dev>',
