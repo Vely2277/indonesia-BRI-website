@@ -114,7 +114,13 @@ module.exports = async function handler(req, res) {
     const { templateType, email, subject, data } = req.body;
     
     // Default values if not provided
-    const toEmail = email || process.env.DEFAULT_EMAIL || 'contact@example.com';
+    const toEmail = email || process.env.DEFAULT_EMAIL;
+    if (!toEmail) {
+      return res.status(500).json({
+        success: false,
+        message: 'DEFAULT_EMAIL is not configured'
+      });
+    }
     const emailSubject = subject || 'BRI Website Notification';
     const template = templateType || 'website-visit';
     const templateData = data || {};
