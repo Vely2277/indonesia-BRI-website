@@ -1,24 +1,9 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "package.json",
-      "use": "@vercel/node"
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
     }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
-  "env": {
-    "RESEND_API_KEY": "@resend_api_key",
-    "RESEND_FROM_EMAIL": "@resend_from_email",
-    "DEFAULT_EMAIL": "@default_email"
-  }
+  ]
 }
