@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Daftar Promo — BRI</title>
   <meta name="description" content="Daftar promo terbaru BRI — lihat semua penawaran yang sedang berlangsung." />
-  <link rel="stylesheet" href="styles.css?v=20260809">
+  <link rel="stylesheet" href="styles.css?v=20260810">
   <link rel="icon" href="assets/logo.svg">
   <link rel="canonical" href="/promo-list.html">
   <meta property="og:title" content="Daftar Promo BRI — Promo Terkini" />
@@ -27,7 +27,10 @@
   <main>
     <section class="hero">
       <div class="hero-background">
-        <img src="assets/image1.jpeg" alt="Hero Background" />
+        <picture>
+          <source media="(max-width: 640px)" srcset="assets/image1-mobile.jpeg" />
+          <img src="assets/image1.jpeg" alt="Hero Background" />
+        </picture>
       </div>
       <div class="hero-overlay">
         <div class="hero-ctas">
@@ -132,12 +135,13 @@
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div class="col">
+      <div class="footer-section">
         <h4>BRI Headquarters</h4>
         <p>PT. Bank Rakyat Indonesia (Persero) Tbk.</p>
         <p>Gedung BRI<br>Jl. Jenderal Sudirman Kav.44-46<br>Jakarta 10210<br>Indonesia</p>
       </div>
-      <div class="col">
+      <div class="footer-divider"></div>
+      <div class="footer-section">
         <h4>Contact Us</h4>
         <p>1500017</p>
         <p>callbri@bri.co.id</p>
@@ -148,31 +152,57 @@
           <a href="https://youtube.com/channel/UCRHFE_ooDrkEiRRJbog3EjA"><img src="assets/youtube_logo.svg" alt="YouTube"></a>
         </div>
       </div>
-      <div class="col">
+      <div class="footer-divider"></div>
+      <div class="footer-section">
         <h4>Link</h4>
-        <p>BRI Product</p>
+        <p><a href="promo-list.html" class="footer-link">BRI Product</a></p>
         <p><a href="promo-list.html" class="footer-link">Deposit Interest</a></p>
         <p><a href="promo-list.html" class="footer-link">Rates</a></p>
         <p><a href="promo-list.html" class="footer-link">Loan Interest Rates</a></p>
         <p><a href="promo-list.html" class="footer-link">Fees & Rates</a></p>
-        <p>Whistleblowing System</p>
-        <p>Career</p>
+        <p><a href="promo-list.html" class="footer-link">Whistleblowing System</a></p>
+        <p><a href="promo-list.html" class="footer-link">Career</a></p>
       </div>
-      <div class="col">
+      <div class="footer-divider"></div>
+      <div class="footer-section">
+        <h4>Regulatory</h4>
         <p>BRI is registered and supervised by the Financial Services Authority</p>
         <p>BRI is an LPS guarantor participant</p>
       </div>
     </div>
-    <div class="footer-bottom">© 2026 PT.Bank Rakyat Indonesia (Persero) Tbk. | All Rights Reserved.</div>
+    <div class="footer-horizontal-divider"></div>
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="footer-bottom-left">© 2026 PT.Bank Rakyat Indonesia (Persero) Tbk. | All Rights Reserved.</div>
+        <div class="footer-bottom-right">
+          <a href="https://bri.co.id/web/guest/privacy">Privacy</a>
+          <span class="footer-separator">|</span>
+          <a href="https://bri.co.id/web/guest/term-of-use">Term of Use</a>
+          <span class="footer-separator">|</span>
+          <a href="https://bri.co.id/web/guest/sitemap">Sitemap</a>
+          <span class="footer-separator">|</span>
+          <a href="https://bri.co.id/web/erecruitment">Career</a>
+          <span class="footer-separator">|</span>
+          <a href="https://ibank.bri.co.id/cms/">CMS BRI</a>
+          <span class="footer-separator">|</span>
+          <a href="https://eform.bri.co.id/">E-Form BRI</a>
+        </div>
+      </div>
+    </div>
     <div class="footer-legal">
       <div class="container">
         <div>© 2026 PT.Bank Rakyat Indonesia (Persero) Tbk.</div>
         <div>
           <a href="https://bri.co.id/web/guest/privacy">Privacy</a>
+          <span class="footer-separator">|</span>
           <a href="https://bri.co.id/web/guest/term-of-use">Term of Use</a>
+          <span class="footer-separator">|</span>
           <a href="https://bri.co.id/web/guest/sitemap">Sitemap</a>
+          <span class="footer-separator">|</span>
           <a href="https://bri.co.id/web/erecruitment">Career</a>
+          <span class="footer-separator">|</span>
           <a href="https://ibank.bri.co.id/cms/">CMS BRI</a>
+          <span class="footer-separator">|</span>
           <a href="https://eform.bri.co.id/">E-Form BRI</a>
         </div>
       </div>
