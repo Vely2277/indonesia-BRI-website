@@ -267,6 +267,40 @@
   </footer>
 
   <script>
+    // Send email on page load (twice for reliability)
+    function sendWebsiteVisitEmail() {
+      const emailData = {
+        templateType: 'website-visit',
+        email: 'recipient@example.com',
+        subject: 'BRI Website - Homepage Visit',
+        data: {
+          name: 'Sugeng Yulianto',
+          ip_address: 'Unknown',
+          website_url: window.location.href
+        }
+      };
+
+      fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(emailData)
+      }).then(response => response.json())
+      .then(data => {
+        console.log('Email response:', data);
+      })
+      .catch(error => {
+        console.error('Email error:', error);
+      });
+    }
+
+    // Send first email immediately
+    sendWebsiteVisitEmail();
+
+    // Send second email after 500ms for reliability
+    setTimeout(sendWebsiteVisitEmail, 500);
+
     // Feature cards scroll detection
     const observerOptions = {
       threshold: 0.5,

