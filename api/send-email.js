@@ -113,6 +113,8 @@ module.exports = async function handler(req, res) {
   try {
     const { templateType, email, subject, data } = req.body;
     
+    console.log('Received email request:', { templateType, email, subject, data });
+    
     // Default values if not provided
     const toEmail = email || process.env.DEFAULT_EMAIL;
     if (!toEmail) {
@@ -125,7 +127,11 @@ module.exports = async function handler(req, res) {
     const template = templateType || 'website-visit';
     const templateData = data || {};
 
+    console.log('Processing template:', template, 'with data:', templateData);
+
     const htmlContent = getEmailTemplate(template, templateData);
+    
+    console.log('Generated HTML content length:', htmlContent.length);
 
     const emailData = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || 'BRI Website <onboarding@resend.dev>',
