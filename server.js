@@ -14,7 +14,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static('.'));
+app.use(express.static(__dirname));
 
 // Load email template
 function getEmailTemplate(templateType, data) {
@@ -136,7 +136,7 @@ app.get('/api/health', (req, res) => {
 
 // Serve static files
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(port, () => {
